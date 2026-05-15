@@ -105,7 +105,7 @@ def parse_units(data):
 def extract_unit_info(item):
     if not isinstance(item, dict): return None
 print(f"    Unit {item.get('unitNumber','?')} status={item.get('leaseStatus','?')} displayed={item.get('displayed','?')}")
-    unit_id = (item.get("unitId") or item.get("UnitId") or
+unit_id = (item.get("unitId") or item.get("UnitId") or
                item.get("unit") or item.get("Unit") or
                item.get("unitNumber") or item.get("UnitNumber") or
                item.get("id") or item.get("Id"))
