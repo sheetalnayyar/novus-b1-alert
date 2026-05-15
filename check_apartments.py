@@ -105,11 +105,6 @@ def parse_units(data):
 def extract_unit_info(item):
     if not isinstance(item, dict): return None
 
-    # Only include units that are actually available
-    status = item.get("leaseStatus", "")
-    if status not in ("AVAILABLE_READY", "AVAILABLE_NOTICE", "AVAILABLE_ADMIN"):
-        return None
-
     unit_id = (item.get("unitId") or item.get("UnitId") or
                item.get("unit") or item.get("Unit") or
                item.get("unitNumber") or item.get("UnitNumber") or
