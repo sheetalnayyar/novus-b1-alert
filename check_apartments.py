@@ -104,20 +104,17 @@ def parse_units(data):
 
 def extract_unit_info(item):
     if not isinstance(item, dict): return None
+
+    # Only include units that are actually available
+    status = item.get("leaseStatus", "")
+    if status not in ("AVAILABLE_READY", "AVAILABLE_NOTICE", "AVAILABLE_ADMIN"):
+        return None
+
     unit_id = (item.get("unitId") or item.get("UnitId") or
                item.get("unit") or item.get("Unit") or
                item.get("unitNumber") or item.get("UnitNumber") or
                item.get("id") or item.get("Id"))
     if not unit_id: return None
-    rent = (item.get("rent") or item.get("Rent") or item.get("price") or
-            item.get("Price") or item.get("marketRent") or item.get("MarketRent") or "N/A")
-    avail = (item.get("availableDate") or item.get("AvailableDate") or
-             item.get("moveInDate") or item.get("MoveInDate") or "N/A")
-    floor = item.get("floor") or item.get("Floor") or item.get("floorLevel") or "N/A"
-    sqft  = item.get("sqft") or item.get("squareFeet") or item.get("SquareFeet") or "N/A"
-    rent_fmt = f"${rent}" if str(rent).replace(".","").isdigit() else str(rent)
-    return {"unit": str(unit_id), "rent": rent_fmt, "available_date": str(avail),
-            "floor": str(floor), "sqft": str(sqft)}
 
 def load_known_units():
     try:
